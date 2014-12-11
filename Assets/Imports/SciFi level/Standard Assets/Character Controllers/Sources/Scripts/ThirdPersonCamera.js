@@ -49,7 +49,7 @@ function Awake ()
 	
 	if (controller)
 	{
-		var characterController : CharacterController = _target.GetComponent.<Collider>();
+		var characterController : Collider = _target.GetComponent.<Collider>();
 		centerOffset = characterController.bounds.center - _target.position;
 		headOffset = centerOffset;
 		headOffset.y = characterController.bounds.max.y - _target.position.y;
