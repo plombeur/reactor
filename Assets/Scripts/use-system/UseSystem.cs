@@ -15,7 +15,7 @@ public class UseSystem : MonoBehaviour
         usableDetector = usableDetectorObject.AddComponent<UseDetector>();
         usableDetectorObject.transform.localPosition = Vector3.zero;
         SphereCollider collider = usableDetectorObject.AddComponent<SphereCollider>();
-        usableDetectorObject.AddComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+        usableDetectorObject.AddComponent<Rigidbody>().useGravity = false;
         usableDetector.setParentUseSystem(this);
         collider.radius = radius;
         collider.isTrigger = true;

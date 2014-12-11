@@ -18,6 +18,11 @@ public class CharacterControllerIsometricPlayer : MonoBehaviour
         if (Settings.controls.getKeyDown(Controls.FLASHLIGHT))
             controller.setFlashLight(!controller.isFlashLight());
 
+        if (Settings.controls.getKey(Controls.FIRE))
+            GetComponent<AutoFire>().firing = true;
+        else
+            GetComponent<AutoFire>().firing = false;
+
         float deltaVertical, deltaHorizontal ;
         Settings.controls.moveAxis(out deltaVertical, out deltaHorizontal);
         Vector3 moveDirVertical = Camera.main.transform.forward;
