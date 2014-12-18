@@ -7,6 +7,9 @@ public class CharacterControllerIsometricPlayer : MonoBehaviour
 
     private static Plane plane = new Plane();
 
+    public bool canFire = true;
+    public bool canFlashlight = true;
+
     void Start()
     {
 
@@ -15,10 +18,12 @@ public class CharacterControllerIsometricPlayer : MonoBehaviour
     void Update()
     {
 
-        if (Settings.controls.getKeyDown(Controls.FLASHLIGHT))
+        if (canFlashlight && Settings.controls.getKeyDown(Controls.FLASHLIGHT))
             controller.setFlashLight(!controller.isFlashLight());
+        else
+            controller.setFlashLight(false);
 
-        if (Settings.controls.getKey(Controls.FIRE))
+        if (canFire && Settings.controls.getKey(Controls.FIRE))
             GetComponent<AutoFire>().firing = true;
         else
             GetComponent<AutoFire>().firing = false;

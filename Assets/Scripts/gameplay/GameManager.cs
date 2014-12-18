@@ -5,7 +5,13 @@ using System;
 
 public class GameManager : MonoBehaviour
 {
+    public HUD hud;
+
     private static GameManager instance;
+    private GameObject player;
+
+    private bool gameOver = false;
+    private bool gameWin = false;
 
     void Start()
     {
@@ -16,6 +22,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            player = GameObject.FindGameObjectWithTag("Player");
             instance = this;
             DontDestroyOnLoad(gameObject);
 
@@ -26,6 +33,17 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+      //  if (player.GetComponentInChildren<UseSystem>().isUsableTarget())
+           // Debug.Log("ok");
+
+        Living livingPlayer = player.GetComponent<Living>();
+
+        hud.setLifeProgressBar(Math.Max(0, (float)livingPlayer.hp / (float)livingPlayer.maxHP) * 100.0f);
+    }
+
+    void OnLevelWasLoaded(int level)
+    {
+        player = GameObject.FindGameObjectWithTag("Player");
     }
     private void loadSettings()
     {
@@ -39,5 +57,43 @@ public class GameManager : MonoBehaviour
     public static GameManager getInstance()
     {
         return instance;
+    }
+
+
+    public void setGameLost(string reasonText)
+    {
+        gameOver = true;
+        gameWin = false;
+
+        hud.getObjectifWindow().hideObjectifMiniWindow();
+        hud.getObjectifWindow().hideObjectifWindow();
+        hud.getInformationWindow().hideInfoPanel();
+
+        hud.setGameOver("Echec de la mission !", reasonText);
+    }
+
+    public void setGameWin()
+    {
+        gameOver = true;
+        gameWin = true;
+
+        hud.getObjectifWindow().hideObjectifMiniWindow();
+        hud.getObjectifWindow().hideObjectifWindow();
+        hud.getInformationWindow().hideInfoPanel();
+
+        hud.setGameOver("Tu as gagné !", "Bravo, tu as réussi a ....");
+    }
+
+    public bool isGameOver()
+    {
+        return gameOver;
+    }
+    public bool isGameWon()
+    {
+        return gameWin;
+    }
+    public HUD getHUD()
+    {
+        return hud;
     }
 }

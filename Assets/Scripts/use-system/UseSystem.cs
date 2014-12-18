@@ -7,7 +7,6 @@ public class UseSystem : MonoBehaviour
     public float angleForUse = 60;
     private UseDetector usableDetector;
 
-
     void Start()
     {
         GameObject usableDetectorObject = new GameObject("UsableDetector");
@@ -23,7 +22,8 @@ public class UseSystem : MonoBehaviour
 
     void Update()
     {
-
+        usableDetector.transform.localPosition = Vector3.zero;
+        usableDetector.transform.localRotation = Quaternion.identity;
     }
 
     public bool isUsableTarget()

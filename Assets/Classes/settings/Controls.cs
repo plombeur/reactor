@@ -36,6 +36,13 @@ public class Controls : SettingsObject
         vertical = Mathf.Clamp(vertical, -1, 1);
 
         float length = Mathf.Sqrt(Mathf.Pow(vertical, 2) + Mathf.Pow(horizontal, 2));
+
+        if (length == 0)
+        {
+            vertical = 0;
+            horizontal = 0;
+            return;
+        }
         vertical = vertical / length;
         horizontal = horizontal / length;
     }

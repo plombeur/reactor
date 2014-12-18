@@ -6,7 +6,7 @@ public class UseDetector : MonoBehaviour
 {
     private UseSystem useSystem;
     private Usable usableTarget;
-    private List<Usable> visibles;
+    public List<Usable> visibles;
 
     void Start()
     {
@@ -32,7 +32,6 @@ public class UseDetector : MonoBehaviour
             }
         }
         usableTarget = usableToTarget;
-      
     }
     public Usable getUsableTarget()
     {

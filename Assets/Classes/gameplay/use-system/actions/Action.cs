@@ -5,16 +5,6 @@ public abstract class Action : MonoBehaviour
 {
     private bool alreadyUsed;
 
-	void Start () 
-    {
-	
-	}
-	
-	void Update () 
-    {
-	
-	}
-
     public void execute()
     {
         if (!alreadyUsed)
