@@ -57,7 +57,7 @@ public class AIEngineer : MonoBehaviour
         nav.destination = patrolWayPoints[wayPointIndex].position;
 
         Vector3 delta = nav.destination - transform.position;
-        transform.LookAt(transform.position + nav.rigidbody.velocity);
+      //  transform.LookAt(transform.position + nav.rigidbody.velocity);
     }
 }
 

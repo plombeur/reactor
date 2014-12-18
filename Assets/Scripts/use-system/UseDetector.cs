@@ -21,6 +21,8 @@ public class UseDetector : MonoBehaviour
         float usableToTargetAngle = 0;
         foreach (Usable u in visibles)
         {
+            if (u == null)
+                continue;
             float angle = Vector3.Angle(transform.forward, u.transform.position - transform.position);
             if (Mathf.Abs(angle) <= useSystem.angleForUse)
             {

@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
         else
         {
             player = GameObject.FindGameObjectWithTag("Player");
+            Debug.Log(player);
             instance = this;
             DontDestroyOnLoad(gameObject);
 
@@ -33,8 +34,14 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-      //  if (player.GetComponentInChildren<UseSystem>().isUsableTarget())
-           // Debug.Log("ok");
+        if (player.GetComponentInChildren<UseSystem>().isUsableTarget())
+        {
+            getHUD().usePan.SetActive(true);
+            if (Settings.controls.getKey(Controls.USE))
+                player.GetComponentInChildren<UseSystem>().getUsable().use();
+        }
+        else
+            getHUD().usePan.SetActive(false);
 
         Living livingPlayer = player.GetComponent<Living>();
 
@@ -44,6 +51,10 @@ public class GameManager : MonoBehaviour
     void OnLevelWasLoaded(int level)
     {
         player = GameObject.FindGameObjectWithTag("Player");
+    }
+    public GameObject getPlayer()
+    {
+        return player;
     }
     private void loadSettings()
     {

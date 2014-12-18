@@ -12,7 +12,13 @@ public class HUD : MonoBehaviour
 
     private InfoWindow infoWindow;
     private ObjectifWindow objectifWindow;
+
+    public Text eventText;
+    public GameObject usePan;
+
     private static HUD instance;
+    public float eventDuration = 1;
+    private float eventTimer = 0;
 
     void Start()
     {
@@ -27,7 +33,12 @@ public class HUD : MonoBehaviour
         WinPanel.SetActive(false);
         DontDestroyOnLoad(transform.parent);
     }
-
+    void Update()
+    {
+        eventTimer -= Time.deltaTime;
+        if (eventTimer <= 0)
+            eventText.gameObject.SetActive(false);
+    }
     public void setLifeProgressBar(float percent)
     {
         lifeBar.progress = percent;
@@ -46,5 +57,11 @@ public class HUD : MonoBehaviour
     public ObjectifWindow getObjectifWindow()
     {
         return objectifWindow;
+    }
+    public void showEvent(string eventText)
+    {
+        this.eventText.gameObject.SetActive(true);
+        eventTimer = eventDuration;
+        this.eventText.text = eventText;
     }
 }

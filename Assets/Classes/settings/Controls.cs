@@ -14,6 +14,7 @@ public class Controls : SettingsObject
     public const string CAMERA_ROTATE_RIGHT = "camera_rotate_right";
     public const string FLASHLIGHT = "flashlight";
     public const string FIRE = "fire";
+    public const string USE = "use";
 
     public Controls(string path): base(path, getControlsTemplate())
     {
@@ -67,8 +68,9 @@ public class Controls : SettingsObject
         settings.Add(new Setting(RIGHT, KeyCode.D));
         settings.Add(new Setting(CAMERA_ROTATE_LEFT, KeyCode.A));
         settings.Add(new Setting(CAMERA_ROTATE_RIGHT, KeyCode.E));
-        settings.Add(new Setting(FLASHLIGHT, KeyCode.F));
+        settings.Add(new Setting(FLASHLIGHT, KeyCode.T));
         settings.Add(new Setting(FIRE, KeyCode.Mouse0));
+        settings.Add(new Setting(USE, KeyCode.F));
         return settings;
     }
 }

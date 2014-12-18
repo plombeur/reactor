@@ -20,7 +20,7 @@ public class CharacterControllerIsometricPlayer : MonoBehaviour
 
         if (canFlashlight && Settings.controls.getKeyDown(Controls.FLASHLIGHT))
             controller.setFlashLight(!controller.isFlashLight());
-        else
+        else if (!canFlashlight)
             controller.setFlashLight(false);
 
         if (canFire && Settings.controls.getKey(Controls.FIRE))
