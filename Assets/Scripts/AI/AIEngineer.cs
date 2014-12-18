@@ -3,62 +3,65 @@ using System.Collections;
 
 public class AIEngineer : MonoBehaviour
 {
-    public float speed = 1;
-    public CheckPoint[] checkpoints;
+    public float patrolSpeed = 2f;                          // The nav mesh agent's speed when patrolling.
+    public float patrolWaitTime = 1f;                       // The amount of time to wait when the patrol way point is reached.
+    public Transform[] patrolWayPoints;                     // An array of transforms for the patrol route.
 
-    private int index = 0;
-    private int sens = 1;
-    private float waitingTime = 0;
-    private bool isWaiting = false;
+
+    private NavMeshAgent nav;                               // Reference to the nav mesh agent.
+    private float patrolTimer;                              // A timer for the patrolWaitTime.
+    private int wayPointIndex;                              // A counter for the way point array.
 
     void Start()
     {
-
+        nav = GetComponent<NavMeshAgent>();
     }
 
     void Update()
     {
-        if (!isWaiting && (int)transform.position.x == (int)checkpoints[index].transform.position.x && (int)transform.position.z == (int)checkpoints[index].transform.position.z)
-        {
-            waitingTime = checkpoints[index].waitTime;
-            isWaiting = true;
-        }
-
-        if (isWaiting)
-        {
-            waitingTime -= Time.deltaTime;
-            if (waitingTime <= 0)
-            {
-                index += sens;
-                isWaiting = false;
-            }
-
-        }
-
-        if (index >= checkpoints.Length)
-        {
-            index = Mathf.Max(checkpoints.Length - 2, 0);
-            sens = -1;
-        }
-        else if (index < 0)
-        {
-            index = Mathf.Min(1, checkpoints.Length - 1);
-            sens = 1;
-        }
-
-        if (!isWaiting)
-        {
-
-            
-            Vector3 dir = (checkpoints[index].transform.position - transform.position);
-            dir.y = 0;
-            rigidbody.velocity = dir.normalized * Time.deltaTime * speed;
-            //rigidbody.AddForce(dir.normalized * Time.deltaTime * speed,ForceMode.VelocityChange);
-            transform.LookAt(transform.position + dir);
-        }
+        Patrolling();
+        gameObject.rigidbody.velocity = nav.velocity;
 
     }
+    void Patrolling()
+    {
+        if (patrolWayPoints.Length == 0)
+            return;
+        // Set an appropriate speed for the NavMeshAgent.
+        nav.speed = patrolSpeed;
+
+        // If near the next waypoint or there is no destination...
+        if (nav.remainingDistance < nav.stoppingDistance)
+        {
+            // ... increment the timer.
+            patrolTimer += Time.deltaTime;
+
+            // If the timer exceeds the wait time...
+            if (patrolTimer >= patrolWaitTime)
+            {
+                // ... increment the wayPointIndex.
+                if (wayPointIndex == patrolWayPoints.Length - 1)
+                    wayPointIndex = 0;
+                else
+                    wayPointIndex++;
+
+                // Reset the timer.
+                patrolTimer = 0;
+            }
+        }
+        else
+            // If not near a destination, reset the timer.
+            patrolTimer = 0;
+
+        // Set the destination to the patrolWayPoint.
+        nav.destination = patrolWayPoints[wayPointIndex].position;
+
+        Vector3 delta = nav.destination - transform.position;
+        transform.LookAt(transform.position + nav.rigidbody.velocity);
+    }
 }
+
+
 [System.Serializable]
 public struct CheckPoint
 {
