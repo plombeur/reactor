@@ -44,9 +44,9 @@ public class MatrixCharacter : MonoBehaviour {
         if (nbFils > 0 && !nextCreated && time >= vitesseAffichage)
         {
             GameObject newObj = (GameObject)GameObject.Instantiate(prefabMatrixCharacter);
-            newObj.transform.parent = transform.parent;
+            //newObj.transform.parent = transform.parent;
             newObj.GetComponent<MatrixCharacter>().nbFils = nbFils - 1;
-            Vector2 position = transform.position;
+            Vector3 position = transform.position;
             position.y -= espacement;
             newObj.transform.position = position;
             nextCreated = true;

@@ -42,8 +42,8 @@ public class MatrixGenerator : MonoBehaviour {
                 float futureY = Random.Range(0, sizeY) - sizeY / 2;
                 futureY -= futureY % espacement;
                 GameObject newMatrixCharacter = (GameObject)GameObject.Instantiate(prefabMatrixCharacter);
-                newMatrixCharacter.transform.parent = transform;
-                newMatrixCharacter.transform.position = new Vector2(futureX, futureY) + (Vector2)transform.position;
+                //newMatrixCharacter.transform.parent = transform;
+                newMatrixCharacter.transform.position = new Vector3(futureX, futureY, 0) + transform.position;
                 newMatrixCharacter.GetComponent<MatrixCharacter>().nbFils = Random.Range(minRepetitionMatrixCharacter, maxRepetitionMatrixCharacter);
             }
         }
