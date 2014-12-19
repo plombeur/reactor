@@ -70,9 +70,6 @@ public class GameManager : MonoBehaviour
         else if (getHUD().getObjectifWindow().objectifWindowPanel.gameObject.activeSelf && Input.GetButtonDown("Submit"))
             getHUD().getObjectifWindow().hideObjectifWindow();
 
-        if (Input.GetButtonDown("Info"))
-            getHUD().getInformationWindow().showInfoPanel();
-
         if (Input.GetButtonDown("Cancel"))
             getHUD().getObjectifWindow().showObjectifWindow();
 

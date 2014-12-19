@@ -3,6 +3,12 @@ using System.Collections;
 
 public class MainMenu : MonoBehaviour
 {
+    public GameObject helpPan;
+
+    void Start()
+    {
+        helpPan.SetActive(false);
+    }
 
 	public void play()
     {
@@ -12,4 +18,10 @@ public class MainMenu : MonoBehaviour
     {
         Application.Quit();
     }
+
+    public void toggleHelp()
+    {
+        helpPan.SetActive(!helpPan.activeSelf);
+    }
+
 }
