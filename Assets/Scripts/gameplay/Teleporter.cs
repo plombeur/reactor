@@ -17,7 +17,7 @@ public class Teleporter : MonoBehaviour
 
     void OnTriggerEnter(Collider other) 
     {
-        if (other.tag == "Player")
+        if (other.tag == "Player" && enabled)
         {
             Application.LoadLevel(nextSceneName);
         }

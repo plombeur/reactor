@@ -52,6 +52,7 @@ public class UseDetector : MonoBehaviour
     void OnTriggerExit(Collider other)
     {
         Usable usable = other.GetComponent<Usable>();
+
         if (usable != null)
             visibles.Remove(usable);
     }
