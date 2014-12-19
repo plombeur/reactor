@@ -30,7 +30,11 @@ public class BarrelController : MonoBehaviour {
             return;
         }
 
-        GetComponent<Rigidbody>().velocity = SpaceNavigatorNoDevice.SubInstance.GetTranslation();
+        Vector3 translationNav = SpaceNavigator.Translation;
+        Vector3 newPosition = new Vector3();
+        newPosition.x = -translationNav.z;
+        newPosition.y = translationNav.x;
+        GetComponent<Rigidbody>().velocity = newPosition;
 	}
 
     void OnCollisionEnter(Collision collider)
