@@ -43,6 +43,7 @@ public class GameManager : MonoBehaviour
             {
                 savePlayerHP = player.GetComponent<Living>().maxHP;
                 player.GetComponent<Living>().dead = false;
+                Time.timeScale = 1;
                 gameOver = false;
                 Application.LoadLevel(Application.loadedLevel);
             }
