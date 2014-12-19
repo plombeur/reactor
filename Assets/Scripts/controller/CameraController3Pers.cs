@@ -17,11 +17,11 @@ public class CameraController3Pers : MonoBehaviour
 
     void Start()
     {
-        
+
     }
     void Update()
     {
-        Vector2 joystickRight = new Vector2(Input.GetAxis("JoyRightHorizontal"), Input.GetAxis("JoyRightVertical"));
+        Vector2 joystickRight = new Vector2(Input.GetAxis("JoyRightHorizontal"), -Input.GetAxis("JoyRightVertical"));
         Vector2 mouseXY = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
 
         Vector2 result = (joystickRight + mouseXY).normalized;
@@ -30,12 +30,12 @@ public class CameraController3Pers : MonoBehaviour
         {
             Screen.lockCursor = true;
             localAngleY += result.y * Time.deltaTime * speedRotateY;
-       localAngleY = Mathf.Clamp(localAngleY, -60, 50);
-        target.Rotate(Vector3.up, result.x * Time.deltaTime * speedRotateX, Space.Self);
+            localAngleY = Mathf.Clamp(localAngleY, -60, 50);
+            target.Rotate(Vector3.up, result.x * Time.deltaTime * speedRotateX, Space.Self);
         }
         else
         {
-        
+
         }
     }
     void LateUpdate()
@@ -56,7 +56,7 @@ public class CameraController3Pers : MonoBehaviour
         {
             foreach (RaycastHit hit in hits)
             {
-                if (hit.collider.gameObject.tag != "Player" && !hit.collider.isTrigger && (!hitSomething || (transform.position - ray.origin).magnitude > (hit.point - ray.origin).magnitude) )
+                if (hit.collider.gameObject.tag != "Player" && !hit.collider.isTrigger && (!hitSomething || (transform.position - ray.origin).magnitude > (hit.point - ray.origin).magnitude))
                 {
                     Debug.Log(hit.collider.isTrigger);
                     transform.position = hit.point;

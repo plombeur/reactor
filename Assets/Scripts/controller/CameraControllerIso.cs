@@ -35,7 +35,7 @@ public class CameraControllerIso : MonoBehaviour
 
     void LateUpdate()
     {
-        Vector2 JoystickAxis = new Vector2(Input.GetAxis("JoyRightHorizontal"), Input.GetAxis("JoyRightVertical"));
+        Vector2 JoystickAxis = new Vector2(Input.GetAxis("JoyRightHorizontal"), -Input.GetAxis("JoyRightVertical"));
         if (JoystickAxis.magnitude > 0 || (lockMouse && previousMousePosition == Input.mousePosition))
         {
             lockMouse = true;
@@ -48,9 +48,12 @@ public class CameraControllerIso : MonoBehaviour
             Vector3 cameraTargetPosition = target.transform.position + cameraAdjustmentVector * cameraPreview - transform.forward * distanceComputed;
 
             transform.position = Vector3.SmoothDamp(transform.position, cameraTargetPosition, ref velocity, cameraSmoothing);
+            target.GetComponent<CharacterControllerIsometricPlayer>().noMouse = true;
         }
         else
         {
+            target.GetComponent<CharacterControllerIsometricPlayer>().noMouse = false;
+
             lockMouse = false;
             float halfWidth = Screen.width / 2.0f;
             float halfHeight = Screen.height / 2.0f;

@@ -57,7 +57,7 @@ public class Controls : SettingsObject
     }
     public float scrollAxis()
     {
-        return Input.GetAxisRaw("Axis3");
+        return Input.GetAxisRaw("Scroll");
     }
     public static List<Setting> getControlsTemplate()
     {

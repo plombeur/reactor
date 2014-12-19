@@ -9,6 +9,7 @@ public class CharacterControllerIsometricPlayer : MonoBehaviour
 
     public bool canFire = true;
     public bool canFlashlight = true;
+    public bool noMouse = false;
 
     void Start()
     {
@@ -22,8 +23,8 @@ public class CharacterControllerIsometricPlayer : MonoBehaviour
             controller.setFlashLight(!controller.isFlashLight());
         else if (!canFlashlight)
             controller.setFlashLight(false);
-
-        if (canFire && (Settings.controls.getKey(Controls.FIRE) || Input.GetAxis("Axis3") >= 0.8f))
+        Debug.Log(Input.GetAxis("Axis3"));
+        if (canFire && (Settings.controls.getKey(Controls.FIRE) || Input.GetAxis("Axis3") <= -0.08f))
             GetComponent<AutoFire>().firing = true;
         else
             GetComponent<AutoFire>().firing = false;
@@ -39,7 +40,11 @@ public class CharacterControllerIsometricPlayer : MonoBehaviour
 
         float distance;
         plane.SetNormalAndPosition(Vector3.up, transform.position);
-        Ray mouseRay = (Camera.main.ScreenPointToRay(Input.mousePosition));
+        Ray mouseRay;
+        if (noMouse)
+              mouseRay = (Camera.main.ScreenPointToRay(new Vector3(Screen.width/2,Screen.height/2)));
+        else
+         mouseRay = (Camera.main.ScreenPointToRay(Input.mousePosition));
         if (plane.Raycast(mouseRay, out distance))
             controller.lookAt(mouseRay.GetPoint(distance));
 
