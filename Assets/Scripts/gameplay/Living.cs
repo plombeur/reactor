@@ -8,7 +8,7 @@ public class Living : MonoBehaviour
     public bool dead = false;
     public AudioClip[] destroySounds;
     public bool showWorldLifeBar;
-
+    public bool autoDestroyWhenDead = false;
     public void damage(float damage)
     {
         hp = Mathf.Clamp(hp - damage, 0, maxHP);
@@ -25,6 +25,8 @@ public class Living : MonoBehaviour
             if (destroySounds != null && destroySounds.Length > 0)
                 AudioSource.PlayClipAtPoint(destroySounds[Random.Range(0, destroySounds.Length - 1)],transform.position);
             dead = true;
+            if (autoDestroyWhenDead)
+                Destroy(gameObject);
         }
     }
 
