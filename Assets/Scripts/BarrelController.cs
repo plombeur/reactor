@@ -5,30 +5,33 @@ public class BarrelController : MonoBehaviour {
 
     private bool blocked = false;
     private bool willReload = false;
-    float timeBeforeReloading = 4;
+    public TextMesh time;
+    private float timeRemaining = 18;
 
 	// Use this for initialization
 	void Start () {
+        time.text = timeRemaining + "s";
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
-        if(willReload)
-        {
-            timeBeforeReloading -= Time.deltaTime;
-            if (timeBeforeReloading <= 0)
-            {
-                Application.LoadLevel(4);
-                willReload = false;
-            }
-        }
 
         if (blocked)
         {
             GetComponent<Rigidbody>().velocity = Vector3.zero;
             return;
         }
+
+        timeRemaining -= Time.deltaTime;
+        if (timeRemaining <= 0)
+        {
+            time.text = "Lost!";
+            blocked = true;
+            GameManager.getInstance().setGameLost("Le temps est écoulé!");
+            Application.LoadLevel(5);
+        }
+        else
+            time.text = timeRemaining + "s";
 
         Vector3 translationNav = SpaceNavigator.Translation;
         Vector3 newPosition = new Vector3();
@@ -40,7 +43,7 @@ public class BarrelController : MonoBehaviour {
     void OnCollisionEnter(Collision collider)
     {
         GameManager.getInstance().setGameLost("Ne touchez aucun obstacle avec le produit!!");
-        willReload = true;
+        Application.LoadLevel(5);
         blocked = true;
     }
 
