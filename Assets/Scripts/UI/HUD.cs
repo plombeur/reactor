@@ -20,6 +20,9 @@ public class HUD : MonoBehaviour
     public float eventDuration = 1;
     private float eventTimer = 0;
 
+    public GameObject miniMapBackground;
+    public GameObject lifeBarPanel;
+
     void Start()
     {
         if (instance != null)
@@ -62,5 +65,10 @@ public class HUD : MonoBehaviour
         this.eventText.gameObject.SetActive(true);
         eventTimer = eventDuration;
         this.eventText.text = eventText;
+    }
+    public void hide()
+    {
+        lifeBarPanel.SetActive(false);
+        miniMapBackground.SetActive(false);
     }
 }

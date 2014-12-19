@@ -13,6 +13,7 @@ public class CameraControllerIso : MonoBehaviour
     private float distanceComputed;
     private float targetRotationY;
     private Vector3 previousMousePosition = Vector3.zero;
+    private bool lockMouse = false;
 
     void Start()
     {
@@ -34,9 +35,11 @@ public class CameraControllerIso : MonoBehaviour
 
     void LateUpdate()
     {
-        Vector2 JoystickAxis = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-        if (JoystickAxis.magnitude > 0)
+        Vector2 JoystickAxis = new Vector2(Input.GetAxis("JoyRightHorizontal"), Input.GetAxis("JoyRightVertical"));
+        if (JoystickAxis.magnitude > 0 || (lockMouse && previousMousePosition == Input.mousePosition))
         {
+            lockMouse = true;
+            previousMousePosition = Input.mousePosition;
             Quaternion screenMovementSpace = Quaternion.Euler(0, transform.eulerAngles.y, 0);
             Vector3 screenMovementForward = screenMovementSpace * Vector3.forward;
             Vector3 screenMovementRight = screenMovementSpace * Vector3.right;
@@ -48,6 +51,7 @@ public class CameraControllerIso : MonoBehaviour
         }
         else
         {
+            lockMouse = false;
             float halfWidth = Screen.width / 2.0f;
             float halfHeight = Screen.height / 2.0f;
             float maxHalf = Mathf.Max(halfWidth, halfHeight);
