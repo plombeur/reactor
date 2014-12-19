@@ -12,6 +12,7 @@ public class CameraControllerIso : MonoBehaviour
     private Vector3 velocity;
     private float distanceComputed;
     private float targetRotationY;
+    private Vector3 previousMousePosition = Vector3.zero;
 
     void Start()
     {
@@ -20,35 +21,50 @@ public class CameraControllerIso : MonoBehaviour
 
     void Update()
     {
-        distance = Mathf.Clamp(distance - (Settings.controls.scrollAxis()*10), minDistance, maxDistance);
+        distance = Mathf.Clamp(distance - (Settings.controls.scrollAxis() * 10), minDistance, maxDistance);
         distanceComputed = Mathf.Lerp(distanceComputed, distance, Time.deltaTime * 5);
         if (Settings.controls.getKey(Controls.CAMERA_ROTATE_LEFT))
-            targetRotationY -= Time.deltaTime*100;
+            targetRotationY -= Time.deltaTime * 100;
         if (Settings.controls.getKey(Controls.CAMERA_ROTATE_RIGHT))
-            targetRotationY += Time.deltaTime*100;
-        float deltaRotate = Mathf.Lerp(targetRotationY,0,Time.deltaTime*10);
-        camera.transform.Rotate(Vector3.up, targetRotationY - deltaRotate,Space.World);
+            targetRotationY += Time.deltaTime * 100;
+        float deltaRotate = Mathf.Lerp(targetRotationY, 0, Time.deltaTime * 10);
+        camera.transform.Rotate(Vector3.up, targetRotationY - deltaRotate, Space.World);
         targetRotationY = deltaRotate;
     }
 
     void LateUpdate()
     {
-        float halfWidth = Screen.width / 2.0f;
-        float halfHeight = Screen.height / 2.0f;
-        float maxHalf = Mathf.Max(halfWidth, halfHeight);
+        Vector2 JoystickAxis = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        if (JoystickAxis.magnitude > 0)
+        {
+            Quaternion screenMovementSpace = Quaternion.Euler(0, transform.eulerAngles.y, 0);
+            Vector3 screenMovementForward = screenMovementSpace * Vector3.forward;
+            Vector3 screenMovementRight = screenMovementSpace * Vector3.right;
 
-        Vector3 posRel = Input.mousePosition - new Vector3(halfWidth, halfHeight, Input.mousePosition.z);
-        posRel.x = Mathf.Clamp(posRel.x / maxHalf, -1, 1);
-        posRel.y = Mathf.Clamp(posRel.y / maxHalf, -1, 1);
+            Vector3 cameraAdjustmentVector = JoystickAxis.x * screenMovementRight + JoystickAxis.y * screenMovementForward;
+            Vector3 cameraTargetPosition = target.transform.position + cameraAdjustmentVector * cameraPreview - transform.forward * distanceComputed;
 
-        Quaternion screenMovementSpace = Quaternion.Euler(0, transform.eulerAngles.y, 0);
-        Vector3 screenMovementForward = screenMovementSpace * Vector3.forward;
-        Vector3 screenMovementRight = screenMovementSpace * Vector3.right;
+            transform.position = Vector3.SmoothDamp(transform.position, cameraTargetPosition, ref velocity, cameraSmoothing);
+        }
+        else
+        {
+            float halfWidth = Screen.width / 2.0f;
+            float halfHeight = Screen.height / 2.0f;
+            float maxHalf = Mathf.Max(halfWidth, halfHeight);
 
-        Vector3 cameraAdjustmentVector = posRel.x * screenMovementRight + posRel.y * screenMovementForward;
-        cameraAdjustmentVector.y = 0;
-        Vector3 cameraTargetPosition = target.transform.position + cameraAdjustmentVector * cameraPreview - transform.forward * distanceComputed;
+            Vector3 posRel = Input.mousePosition - new Vector3(halfWidth, halfHeight, Input.mousePosition.z);
+            posRel.x = Mathf.Clamp(posRel.x / maxHalf, -1, 1);
+            posRel.y = Mathf.Clamp(posRel.y / maxHalf, -1, 1);
 
-        transform.position = Vector3.SmoothDamp(transform.position, cameraTargetPosition, ref velocity, cameraSmoothing);
+            Quaternion screenMovementSpace = Quaternion.Euler(0, transform.eulerAngles.y, 0);
+            Vector3 screenMovementForward = screenMovementSpace * Vector3.forward;
+            Vector3 screenMovementRight = screenMovementSpace * Vector3.right;
+
+            Vector3 cameraAdjustmentVector = posRel.x * screenMovementRight + posRel.y * screenMovementForward;
+            cameraAdjustmentVector.y = 0;
+            Vector3 cameraTargetPosition = target.transform.position + cameraAdjustmentVector * cameraPreview - transform.forward * distanceComputed;
+
+            transform.position = Vector3.SmoothDamp(transform.position, cameraTargetPosition, ref velocity, cameraSmoothing);
+        }
     }
 }

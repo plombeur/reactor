@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
     private bool gameOver = false;
     private bool gameWin = false;
 
+    private float savePlayerHP;
+
     void Start()
     {
         if (instance != null)
@@ -23,7 +25,6 @@ public class GameManager : MonoBehaviour
         else
         {
             player = GameObject.FindGameObjectWithTag("Player");
-            Debug.Log(player);
             instance = this;
             DontDestroyOnLoad(gameObject);
 
@@ -34,23 +35,62 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+        if (isGameOver())
+        {
+            Time.timeScale = 0;
+            Time.fixedDeltaTime = 0.02F * Time.timeScale;
+            if (Input.GetButtonDown("Submit"))
+            {
+                savePlayerHP = player.GetComponent<Living>().maxHP;
+                player.GetComponent<Living>().dead = false;
+                gameOver = false;
+                Application.LoadLevel(Application.loadedLevel);
+            }
+
+        }
+        if (player.GetComponent<Living>().isDead())
+        {
+            if (!isGameOver())
+                setGameLost("Vous avez été éliminé");
+
+            return;
+        }
+
         if (player.GetComponentInChildren<UseSystem>().isUsableTarget())
         {
             getHUD().usePan.SetActive(true);
-            if (Settings.controls.getKey(Controls.USE))
+            if (Settings.controls.getKey(Controls.USE) || Input.GetButton("Use"))
                 player.GetComponentInChildren<UseSystem>().getUsable().use();
         }
         else
             getHUD().usePan.SetActive(false);
 
+        if (getHUD().getInformationWindow().infoWindowPanel.gameObject.activeSelf && Input.GetButtonDown("Submit"))
+            getHUD().getInformationWindow().hideInfoPanel();
+        else if (getHUD().getObjectifWindow().objectifWindowPanel.gameObject.activeSelf && Input.GetButtonDown("Submit"))
+            getHUD().getObjectifWindow().hideObjectifWindow();
+
+        if (Input.GetButtonDown("Info"))
+            getHUD().getInformationWindow().showInfoPanel();
+
+        if (Input.GetButtonDown("Cancel"))
+            getHUD().getObjectifWindow().showObjectifWindow();
+
         Living livingPlayer = player.GetComponent<Living>();
 
         hud.setLifeProgressBar(Math.Max(0, (float)livingPlayer.hp / (float)livingPlayer.maxHP) * 100.0f);
+        savePlayerHP = livingPlayer.hp;
     }
 
     void OnLevelWasLoaded(int level)
     {
+        if (instance != this)
+            return;
+        Time.timeScale = 1;
+        Time.fixedDeltaTime = 0.02F * Time.timeScale;
+        hud = GameObject.FindObjectOfType<HUD>();
         player = GameObject.FindGameObjectWithTag("Player");
+        player.GetComponent<Living>().hp = savePlayerHP;
     }
     public GameObject getPlayer()
     {
@@ -70,6 +110,10 @@ public class GameManager : MonoBehaviour
         return instance;
     }
 
+    public void changeLevel(string level)
+    {
+        
+    }
 
     public void setGameLost(string reasonText)
     {
@@ -92,7 +136,7 @@ public class GameManager : MonoBehaviour
         hud.getObjectifWindow().hideObjectifWindow();
         hud.getInformationWindow().hideInfoPanel();
 
-        hud.setGameOver("Tu as gagné !", "Bravo, tu as réussi a ....");
+        hud.setGameOver("Mission accomplie !", "Félicitation, la mission est un succes");
     }
 
     public bool isGameOver()

@@ -18,12 +18,12 @@ public class CharacterControllerIsometricPlayer : MonoBehaviour
     void Update()
     {
 
-        if (canFlashlight && Settings.controls.getKeyDown(Controls.FLASHLIGHT))
+        if (canFlashlight && (Settings.controls.getKeyDown(Controls.FLASHLIGHT) || Input.GetButtonDown("Flashlight")))
             controller.setFlashLight(!controller.isFlashLight());
         else if (!canFlashlight)
             controller.setFlashLight(false);
 
-        if (canFire && Settings.controls.getKey(Controls.FIRE))
+        if (canFire && (Settings.controls.getKey(Controls.FIRE) || Input.GetAxis("Axis3") >= 0.8f))
             GetComponent<AutoFire>().firing = true;
         else
             GetComponent<AutoFire>().firing = false;

@@ -13,15 +13,32 @@ public class AISoldier : MonoBehaviour
     private int wayPointIndex;                              // A counter for the way point array.
 
     private bool spotted = false;
+    private Transform player;
 
     void Awake()
     {
         nav = GetComponent<NavMeshAgent>();
     }
-
+    void Start()
+    {
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+    }
     void Update()
     {
         if (spotted)
+        {
+            if ((player.transform.position - transform.position).magnitude < 6)
+            {
+                Shooting();
+            }
+            else
+            {
+                nav.speed = chaseSpeed;
+                GetComponent<AutoFire>().firing = false;
+                nav.SetDestination(player.position);
+            }
+        }
+        else
             Patrolling();
         gameObject.rigidbody.velocity = nav.velocity;
     }
@@ -29,11 +46,19 @@ public class AISoldier : MonoBehaviour
 
     void Shooting()
     {
+        Vector3 targetPos = player.position;
+        targetPos.y = transform.position.y;
+        transform.LookAt(targetPos);
         nav.Stop();
+        GetComponent<AutoFire>().firing = true;
     }
 
     void Patrolling()
     {
+        Vector3 delta = player.position - transform.position;
+        Ray ray = new Ray(transform.position, delta );
+        if (!Physics.Raycast(ray, delta.magnitude - 1f))
+            spotted = true;
         if (patrolWayPoints.Length == 0)
             return;
         // Set an appropriate speed for the NavMeshAgent.

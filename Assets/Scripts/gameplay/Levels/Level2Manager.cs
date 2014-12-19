@@ -19,6 +19,7 @@ public class Level2Manager : MonoBehaviour
 
     void Start () 
     {
+        Screen.lockCursor = false;
         doorToNextLevel.lockDoor();
         finalObjectifMinimap.SetActive(false);
         GameManager.getInstance().getPlayer().GetComponent<CharacterControllerIsometricPlayer>().canFire = false;

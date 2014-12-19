@@ -45,12 +45,27 @@ public class AutoFire : MonoBehaviour
                 lastFireTime = Time.time;
 
                 // Find the object hit by the raycast
-                RaycastHit hitInfo;
-                Physics.Raycast(new Ray(transform.position, transform.forward), out hitInfo);
-                if (hitInfo.transform)
+                RaycastHit[] hits = Physics.RaycastAll(new Ray(transform.position + Vector3.up, transform.forward), 10);
+
+                RaycastHit best = new RaycastHit();
+
+                if (hits.Length > 0)
+                {
+                    foreach (RaycastHit hit in hits)
+                    {
+                        if (hit.transform && !hit.collider.isTrigger)
+                        {
+                            if (!best.transform || (best.transform.position - transform.position).magnitude > (hit.transform.position - transform.position).magnitude)
+                                best = hit;
+                        }
+                    }
+                }
+               // Physics.Raycast(new Ray(transform.position+Vector3.up, transform.forward), out hitInfo);
+
+                if (best.transform)
                 {
                     // Get the health component of the target if any
-                    Living targetHealth = hitInfo.transform.GetComponent<Living>();
+                    Living targetHealth = best.transform.GetComponent<Living>();
                     if (targetHealth)
                     {
                         // Apply damage
@@ -58,18 +73,18 @@ public class AutoFire : MonoBehaviour
                     }
 
                     // Get the rigidbody if any
-                    if (hitInfo.rigidbody)
+                   /* if (hitInfo.rigidbody)
                     {
                         // Apply force to the target object at the position of the hit point
                         Vector3 force = transform.forward * (forcePerSecond / frequency);
                         hitInfo.rigidbody.AddForceAtPosition(force, hitInfo.point, ForceMode.Impulse);
-                    }
+                    }*/
 
                     // Ricochet sound
                     //AudioClip sound = MaterialImpactManager.GetBulletHitSound(hitInfo.collider.sharedMaterial);
                    // AudioSource.PlayClipAtPoint(sound, hitInfo.point, hitSoundVolume);
 
-                    bullet.dist = hitInfo.distance;
+                    bullet.dist = best.distance;
                 }
                 else
                 {

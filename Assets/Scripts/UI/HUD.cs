@@ -31,7 +31,6 @@ public class HUD : MonoBehaviour
         infoWindow = GetComponentInChildren<InfoWindow>();
         objectifWindow = GetComponentInChildren<ObjectifWindow>();
         WinPanel.SetActive(false);
-        DontDestroyOnLoad(transform.parent);
     }
     void Update()
     {
