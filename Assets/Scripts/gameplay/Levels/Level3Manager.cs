@@ -11,13 +11,13 @@ public class Level3Manager : MonoBehaviour
     public GameObject finalObjectifMinimap;
     public BatteryPoint batteryPoint;
 
-    private string obectif1Title = "Alimentation energetique";
-    private string objectif1Task = "* Recupere des batteries";
-    private string objectif1Description = "Le téléporteur pour la salle de controle n'est pas alimenté en energie. Le systeme étant autonomie, seul des machines s'y trouve, tu vas donc devoir trouver de quoi l'alimenter. Les soldats utilise tout comme toi une batterie pour alimenter leur armure, tue en suffisament pour recuperer les recuperer";
+    private string obectif1Title = "Alimentation énergétique";
+    private string objectif1Task = "* Récupère des batteries";
+    private string objectif1Description = "Le téléporteur pour la salle de contrôle n'est pas alimenté en énergie. Le système étant autonome et contrôlé a distance, seul des machines s'y trouvent, tu vas donc devoir trouver de quoi l'alimenter. Les soldats utilisent tout comme toi une batterie pour alimenter leur armure, tues-en suffisamment pour les récupérer";
 
-    private string obectif2Title = "Etage -2 : La salle de controle";
-    private string objectif2Task = "* Alimente et utilse le téléporteur";
-    private string objectif2Description = "Tu as suffisament de batteries pour alimenter le téléporteur, branche-les sur le téléporteur et utilise le !";
+    private string obectif2Title = "Etage -2 : La salle de contrôle ";
+    private string objectif2Task = "* Alimente et utilise le téléporteur";
+    private string objectif2Description = "Tu as suffisamment de batteries pour alimenter le téléporteur, branche-les sur le téléporteur et utilise le !";
 
     void Start () 
     {

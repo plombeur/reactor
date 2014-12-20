@@ -3,9 +3,9 @@ using System.Collections;
 
 public class Level5Manager : Action 
 {
-    private string obectif1Title = "Un arret en douceur";
+    private string obectif1Title = "Un arrêt en douceur";
     private string objectif1Task = "* Utilise l'ordinateur principal du réacteur";
-    private string objectif1Description = "Derriere le réacteur se trouve l'ordinateur principal, c'est a partir de celui-ci qu'on arrete normalement le réacteur, termine le travail !";
+    private string objectif1Description = "Derrière le réacteur se trouve l'ordinateur principal, c'est à partir de celui-ci que tu vas pouvoir stabiliser le réacteur, c’est la dernière étape de ta mission.";
 
     void Start()
     {

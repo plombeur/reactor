@@ -6,7 +6,7 @@ public class Level1Manager : MonoBehaviour
 
     void Start()
     {
-        GameManager.getInstance().getHUD().getInformationWindow().showInfo("La mission", "Vous devez penetrer dans le complexe de l'UTECH, une entreprise qui creer des solutions méchanisées avec un grand randement de production. Il se trouve que ce rendement est du à l'utilisation de moyens illégals, en effet ils utilisent des humains comme source d'energie. Apres s'être infiltré dans le complexe, il vous faudrat trouver un moyen d'acceder aux étages inferieurs jusqu'a atteindre le réacteur et enfin le mettre hors service. Bonne chance");
+        GameManager.getInstance().getHUD().getInformationWindow().showInfo("La mission : Arret du réacteur à humain !", "L’entreprise UTECH créer des machines à utilisation civil ou militaire à la pointe de la technologie. Cependant, le complexe situé proche de vous à besoin de beaucoup d’énergie pour sa production et les bénéfices serait inexistants s’ils utilisaient le raccordement standard, c’est pourquoi ils utilisent leur propre réacteur, le problème c’est que ce réacteur génère son énergie d’une manière très spéciale mais surtout illégale, UTECH a trouvé un moyen de générer une grande quantité d’électricité à partir d’être humain qui sont donc détenus et exploités. L’armée ne peut pas intervenir car la défense militaire extérieure est trop importante. Votre mission est donc de vous infiltrer dans le complexe afin de mettre le réacteur hors service ce qui désactivera toutes les défenses du complexe et permettrait à l’armée d’intervenir. Bonne chance soldat");
     }
 
 	void OnTriggerEnter(Collider other)

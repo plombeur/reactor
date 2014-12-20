@@ -9,13 +9,13 @@ public class Level2Manager : MonoBehaviour
     public RoomDoor doorToNextLevel;
     public GameObject finalObjectifMinimap;
 
-    private string obectif1Title = "La carte d'access";
-    private string objectif1Task = "* Recupere la carte d'acces";
-    private string objectif1Description = "L'acess à l'étage inférieur est verouillé, seul le chef technicien dispose d'une carte d'access, son identité n'est pas connu alors tu vas devoir les fouiller un par un.";
+    private string obectif1Title = "La carte d'accès";
+    private string objectif1Task = "* Récupère la carte d'accès";
+    private string objectif1Description = "L'accès à l'étage inférieur est verrouillé, seul le chef des employés présent à cet étage dispose d'une carte d’accès, son identité n'est pas connu alors tu vas devoir les fouiller un par un.";
 
     private string obectif2Title = "Etage -1 : Zone de stockage";
     private string objectif2Task = "* Utilse le téléporteur";
-    private string objectif2Description = "Avec la carte d'acces, tu peut maintenant ouvrir la porte et utiliser un de leurs fameux téléporteur pour atteindre l'étage inférieur";
+    private string objectif2Description = "Avec la carte d'accès, tu peux maintenant ouvrir la porte et utiliser un de leurs fameux téléporteur pour atteindre l'étage inférieur";
 
     void Start () 
     {
